@@ -21,3 +21,13 @@ day( now() ),
 hour( now() ),
 minute( now() ),
 second( now() )
+
+데이터전체 백업하기
+c:/>mysqldump -utest1 -p123456 banana > db.sql
+데이터 전체받기 
+c:/>mysql -utest1 -p123456 banana < db.sql
+-------------------------------------------------------
+데이터(테이블) 일부 백업하기
+c:/>mysqldump -utest1 -p123456 banana post1> post1.sql
+데이터(테이블) 일부 받기
+c:/>mysql -utest1 -p123456 banana < post1.sql
