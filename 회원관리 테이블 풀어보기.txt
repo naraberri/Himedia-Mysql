@@ -1,0 +1,66 @@
+1. 아이디 이름 생년
+   test1  홍길동 2000년생
+SELECT 
+userid as '아이디',
+name as '이름',
+concat(date_format(birthday ,'%Y'),'년생') as'생년' 
+FROM `mbr_info` WHERE userid='test1';
+
+2. 아이디 이름 성별 나이 등록일
+test1 홍길동 남 23세 2021-01-10
+SELECT 
+userid as '아이디',
+name as '이름',
+case when gender = 'M' then '남' else '여' end as'성별',
+round((TO_DAYS(NOW()) - TO_DAYS(birthday))/365) as '나이',
+date_format(rdate,'%Y-%m-%d') as'등록일'
+FROM `mbr_info` WHERE userid='test1';
+
+3. 암호가1234로 되어 있는 데이터를 출력한다
+select * from mbr_info where pass=password('1234');
+select * from mbr_info where pass=md5('7777');
+
+4. 2021년2월 이후 등록자들의 이름과 전번을 출력한다
+SELECT name,phone,rdate FROM mbr_info WHERE rdate >= '2021-02-01';
+
+5. 핸드폰 번호가 010이 아닌 데이터를 출력한다
+select * from mbr_info WHERE phone NOT LIKE '010%';
+
+6. 아이디가 test로 시작되는 데이터를 출력한다
+select * from mbr_info WHERE userid like 'test%';
+
+7. 아이디 이름 혈액형을 출력한다
+select mi.userid,mi.name,mo.blood from mbr_info mi,mbr_other mo;
+
+8. 아이디 직업 취미를 출력한다
+select 
+mi.userid as '아이디',
+mi.name as '이름',
+mc1.code_name as '취미',
+mc2.code_name as '직업'
+from mbr_info mi,mbr_other mo,mbr_code mc1,mbr_code mc2
+where mc1.code_id = mo.hobby and mi.userid = mo.userid and mc2.code_id = mo.job ;
+
+9. 홍길동의 취미를 출력한다
+SELECT 
+mc.code_name 
+FROM mbr_code mc,mbr_info mi,mbr_other mo 
+WHERE mo.userid = mi.userid and 
+          mc.code_id=mo.hobby and 
+          mi.name like '홍길동';
+
+10. 홍길동의 직업을 출력한다
+SELECT 
+mc.code_name 
+FROM mbr_code mc,mbr_info mi,mbr_other mo 
+WHERE mo.userid = mi.userid and 
+          mc.code_id=mo.job and 
+          mi.name like '홍길동';
+
+11. 야구가 취미인 사람을 출력한다.
+SELECT 
+mi.name
+FROM mbr_code mc,mbr_info mi,mbr_other mo 
+WHERE mi.userid = mo.userid and 
+          mc.code_id = mo.hobby and 
+          mc.code_name like '야구';

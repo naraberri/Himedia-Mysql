@@ -1,0 +1,23 @@
+auto_increment
+자동으로 숫자를 입력해주는 용도
+데이터를 넣을때 비워두면 됨
+한번 지워진 데이터는 다시 사용하지 않음(시퀀스와 똑같음)
+
+unsigned
+수치 타입에만 적용가능한 옵션으로 음수공간을 양수공간에 누적시키는 용도
+tinyint -128~127 -> 0~254로 양수의 공간이 늘어남
+
+limit
+mysql에는 rownum이 없음
+SELECT * FROM `studentscore` order by eng desc limit 9,5;
+limit 40; index 숫자가 생략됨 -> 0,40
+limit 9,5; 10번째 행부터 5개 출력
+
+날짜
+select now(),
+year( now() ),
+month( now() ),
+day( now() ),
+hour( now() ),
+minute( now() ),
+second( now() )

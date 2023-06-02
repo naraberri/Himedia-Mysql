@@ -1,0 +1,42 @@
+create table mbr_info (
+   unq int not null auto_increment,
+   userid varchar(20) not null,
+   pass varchar(20) not null,
+   name varchar(20) not null,
+   gender enum('M','F') not null,
+   birthday date not null,
+   phone varchar(20),
+   rdate datetime,
+   primary key(unq)
+   );
+
+create table mbr_other(
+   userid varchar(20) not null,
+   job varchar(4),
+   hobby varchar(4),
+   blood enum('A','O','B','AB')
+   );
+
+create table mbr_code(
+   unq int unsigned not null auto_increment,
+   code_type varchar(2),
+   code_id varchar(4),
+   code_name varchar(20),
+   primary key(unq)
+   );
+
+insert into mbr_code values('','c1','h001','태권도');
+insert into mbr_code values('','c1','h002','야구');
+insert into mbr_code values('','c1','h003','축구');
+insert into mbr_code values('','c2','j001','개발');
+insert into mbr_code values('','c2','j002','컨설팅');
+insert into mbr_code values('','c2','j003','디자인');
+
+insert into mbr_info values('','test1',password('1234'),'홍길동','M','2000-12-25','010-777-7777','2021-01-10');
+insert into mbr_info values('','test2',password('123456'),'이영희','F','1998-10-25','017-777-1212','2021-02-01');
+insert into mbr_info values('','king1',password('1111'),'이성계','M','2001-07-07','010-2563-1234','2021-05-01');
+update mbr_info set rdate = now() where userid = 'king1';
+
+insert into mbr_other values('test1','j002','h003','O');
+insert into mbr_other values('test2','j003','h002','AB');
+insert into mbr_other values('test3','j001','h002','B');

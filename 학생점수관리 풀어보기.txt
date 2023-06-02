@@ -1,0 +1,117 @@
+내용 수정
+주소 정보에 해당하는 loc 컬럼 값을 변경한다
+1: 서울 2: 대구 3: 원주 4: 전주
+
+update studentscore set loc= case when loc=1 then'서울' 
+			        when loc=2 then'대구' 
+			        when loc=3 then'원주' 
+			        when loc=4 then'전주'
+			   end;
+
+실습예제
+1. 영어점수를 1등부터 출력한다
+select eng from studentScore order by eng desc;
+
+2. 영어점수 중 최고점을 출력한다
+select max(eng) from studentScore;
+
+3. 아이디 101의 평균을 출력한다
+select (kor+eng)/2 as 'st101의 평균' from studentscore where userid='st101';
+
+4. 국어점수가 60점 미만인 학생의 아이디를 출력
+select * from studentscore where kor < 60;
+
+5. 두 과목 모두 60점 이상인 학생들을 출력한다
+select * from studentscore where kor >= 60 and eng >= 60;
+
+6. 두 과목중 한 과목이라도 60점 미만이 있는 학생들을 출력한다
+select * from studentscore where kor < 60 or eng < 60;
+
+7. 영어점수 기준으로 1등부터 5등까지 학생들을 출력하시오
+SELECT * FROM studentscore order by eng desc limit 0,5;
+
+8. 영어점수 기준으로 6등부터 10등까지 학생들을 출력하시오
+SELECT * FROM studentscore order by eng desc limit 9,5;
+
+9. 전체 총합 1등의 아이디,이름,총합점수를 출력한다
+SELECT userid,loc,(kor+eng) FROM studentscore where (kor+eng) = (select max(kor+eng) from studentscore);
+
+10. 아이디가 101인 데이터의 영어 점수에 +5를 적용한다
+update studentscore set eng=eng+5 where userid like '%101%';
+
+11. 대구지역 학생 목록을 출력한다
+select * from studentscore where loc='대구';
+
+12. 대구지역 학생수를 출력한다.
+select count(*) from studentscore where loc='대구';
+
+13. 대구지역에서 영어점수가 가장 높은 학생의 아이디와 영어점수를 출력한다.
+select userid,eng from studentscore where eng = (select max(eng) from studentscore where loc='대구');
+
+14. 대구지역에서 두 과목 합계 1등의 아이디와 총점을 출력한다
+select userid,(kor+eng) from studentscore where loc='대구' and (kor+eng) = (select max(kor+eng) from studentscore where loc='대구');
+
+14-1. 점수별 학점 출력
+select userid,eng,case when eng >= 90 then 'A'
+		    when eng >= 80 then 'B'
+		    when eng >= 70 then 'C'
+		    when eng >= 60 then 'D'
+		    else 'F'
+		    end as 'eng_grade'
+from studentscore;
+
+create view v_studentscore1 as
+select userid,kor,case when kor >= 90 then 'A'
+		    when kor >= 80 then 'B'
+		    when kor >= 70 then 'C'
+		    when kor >= 60 then 'D'
+		    else 'F'
+		    end as 'kor_grade'
+	   ,eng,case when eng >= 90 then 'A'
+		    when eng >= 80 then 'B'
+		    when eng >= 70 then 'C'
+		    when eng >= 60 then 'D'
+		    else 'F'
+		    end as 'eng_grade'
+from studentscore;
+
+select * from v_studentscore1 order by eng_grade asc;
+select eng_grade,count(*) from v_studentscore1 group by eng_grade;
+
+create studentscore2 as
+select userid,kor,case when kor >= 90 then 'A'
+		    when kor >= 80 then 'B'
+		    when kor >= 70 then 'C'
+		    when kor >= 60 then 'D'
+		    else 'F'
+		    end as 'kor_grade'
+	   ,eng,case when eng >= 90 then 'A'
+		    when eng >= 80 then 'B'
+		    when eng >= 70 then 'C'
+		    when eng >= 60 then 'D'
+		    else 'F'
+		    end as 'eng_grade'
+from studentscore;
+
+주소 값 변경
+서울 > 서울특별시 강남구
+대구 > 대구광역시 수성구
+원주 > 강원도 원주시
+전주 > 전라북도 전주시
+update studentscore set loc= case when loc='서울' then '서울특별시 강남구'
+			        when loc='대구' then '대구광역시 수성구'
+			        when loc='원주' then '강원도 원주시'
+			        when loc='전주' then '전라북도 전주시'
+			   end;
+
+15. 수성구에 사는 학생들을 출력한다
+select * from studentscore where loc like '%수성구%';
+
+16. 서울에 사는 학생들을 출력한다
+select * from studentscore where loc like '%서울%';
+
+17. 대구에 사는 학생들은 총몇명인가
+select count(*) from studentscore where loc like '%대구%';
+
+18. 강원도 학생들의 영어 평균은 얼마인가
+select round(avg(eng),2) from studentscore where loc like '%강원도%';

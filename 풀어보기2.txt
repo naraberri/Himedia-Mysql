@@ -1,0 +1,20 @@
+1. 전체데이터 개수 출력
+SELECT count(*) FROM post1;
+
+2. 서울 데이터 개수 출력
+SELECT count(*) FROM post1 where a2 like '%서울%';
+
+3. 문화동이 어느구나 시에 있는지 검색한다
+SELECT * FROM post1 where a4 like '%문화동%' group by a3;
+
+4. 전국에 중앙하이츠 아파트가 구별로 몇개가 있는지 출력한다
+SELECT a3,count(*) FROM post1 
+where a7 like '%중앙하이츠%' 
+group by a3 order by count(*) desc;
+
+5. 서울시에 어떤 "구"들이 있는지 구만 출력한다
+SELECT distinct(a3) FROM post1 where a2 like '%서울%';
+
+6.다음 내용을 검색하여 하나의 컬럼형힉으로 연결하여 출력한다
+306762 대전광역시 대덕구 목상동 동원상수아파트
+select concat(a1,' ',a2,' ',a3,' ',a4,' ',a5,' ',a6,' ',a7) from post1 where a1=306762;
